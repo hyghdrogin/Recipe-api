@@ -9,3 +9,10 @@ https://documenter.getpostman.com/view/21130368/2s8YmUMKvV
 
 # Site Architecture
 https://docs.google.com/document/d/1S7AGth9xl4sQ5JuYlg0pd38nePWGNA_Xw0td2QQ6avY/edit
+
+# HOW TO RUN PROJECT
+
+Clone this Repo
+•Run npm install
+•Run npm run dev script to start the project in development mode or npm start script to start the project in production mode
+•Code Auto saves and correct errors when you save.
