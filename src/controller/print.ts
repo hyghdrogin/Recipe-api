@@ -22,19 +22,37 @@ export default class ReciprintController {
   static async printRecipe(req: Request, res: Response) {
     try {
       const { recipeId } = req.params;
-      const recipe = await models.Recipe.find({ where: { id: recipeId } }).select("-timestamp");
+      const recipe = await models.Recipe.findById(recipeId);
       const browser = await puppeteer.launch();
       const page = await browser.newPage();
       console.log(recipe);
-      await page.setContent(recipe.toString());
-      await page.pdf({
+      // await page.setContent(JSON.stringify(recipe));
+      await page.setContent(
+        `<h1>${recipe?.title}</h1><br>
+        <p>${recipe?.subtitle}</p>
+
+        <h2>Description</h2>
+        <p>${recipe?.description}</p><br>
+        <h2>Materials</h2>
+        <p>${recipe?.materials}</p><br>
+        <h2>Ingredients</h2>
+        <p>${recipe?.ingredient}</p><br>
+        <h2>Steps</h2>
+        <p>${recipe?.steps}</p><br>
+        <h2>Duration</h2>
+        <p>${recipe?.duration}</p><br>
+        <h2>Author</h2>
+        <p>${recipe?.author}</p><br>
+        `
+      );
+      const pdf = await page.pdf({
         path: "src/recipe.pdf",
         format: "A4",
         printBackground: true,
       });
       console.log(`Recipe card generated from ${config.APP_NAME}`);
       await browser.close();
-      return successResponse(res, 200, "A4 paper generated right under your app.ts",);
+      return successResponse(res, 201, "A4 fromat pdf generated", pdf);
     } catch (error) {
       handleError(error, req);
       return errorResponse(res, 500, "Server error");

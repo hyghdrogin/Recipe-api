@@ -6,7 +6,7 @@ export interface RecipeInterface {
   description?: string;
   materials?: string;
   ingredient?: string;
-  steps?: [];
+  steps: [];
   duration?: string;
   author?: string;
   createdAt?: Date;
